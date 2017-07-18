@@ -5,9 +5,6 @@ cd /d %~dp0
 set /p ver=<version.txt
 set title=%~n0
 TITLE %title%
-rd /S /Q %p_out% >nul 2>&1
-rd /S /Q %d_out% >nul 2>&1
-rd /S /Q %a_out% >nul 2>&1
 for /f "tokens=1,* delims=. " %%F in ('dir /b patches\*.patch') do (
 	set "newvar=%%F"
 	set %newvar%_choice=,Yes,No,
@@ -16,6 +13,9 @@ for /f "tokens=1,* delims=. " %%F in ('dir /b patches\*.patch') do (
 set "p_out=patches_out"
 set "d_out=decompile_out"
 set "a_out=_NEW_APK"
+rd /S /Q %p_out% >nul 2>&1
+rd /S /Q %d_out% >nul 2>&1
+rd /S /Q %a_out% >nul 2>&1
 set pCounter=1
 for /f "tokens=1,* delims=. " %%F in ('dir /b patches\*.patch') do (
 	set "newvar=%%F"
@@ -101,15 +101,6 @@ for /f "tokens=1,* delims=. " %%f in ('dir /b ..\%p_out%\*.patch') do (
 del /f /q "assets\terms\en\DJI_Go_4_App_Terms_of_Use.html"
 copy "..\patches\unknown.lol" "assets\terms\en\DJI_Go_4_App_Terms_of_Use.html" >nul
 REM nothing
-	echo -: Modifying NFZ...
-	del /f /q "assets\flysafe\flysafe_areas_djigo.db"
-	del /f /q "assets\flysafe\flysafe_polygon_1860.db"
-	del /f /q "assets\flysafe\flyforbid_airmap\*.json"
-	del /f /q "res\raw\flyforbid.json"
-	copy "..\patches\nfz\flyforbid.json" "res\raw\flyforbid.json"
-	copy "..\patches\nfz\flyforbid_airmap\*.json" "assets\flysafe\flyforbid_airmap\"
-	copy "..\patches\nfz\flysafe_areas_djigo.db" "assets\flysafe\flysafe_areas_djigo.db"
-	copy "..\patches\nfz\flysafe_polygon_1860.db" "assets\flysafe\flysafe_polygon_1860.db"
 REM here
 cd ..
 echo -: Rebuilding apk...
